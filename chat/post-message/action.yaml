@@ -1,0 +1,74 @@
+name: Post message to Slack Channel
+description: |
+  Posts a message to a Slack channek
+author: '@bitwizeshift'
+
+inputs:
+  slack-token:
+    description: The auth token for the given Slack bot.
+    required: true
+  message:
+    description: |
+      The message to post to Slack.
+      The format of this will be in markdown unless 'markdown' is 'false'.
+    required: true
+  channel:
+    description: The name or ID of the channel to comment on
+    required: true
+
+  icon-emoji:
+    description: |
+      Emoji to use as the icon for this message. Overrides icon_url.
+
+      Example: ":chart_with_upwards_trend:"
+    required: false
+    default: ""
+  icon-url:
+    description: |
+      URL to an image to use as the icon for this message.
+
+      Example: "http://lorempixel.com/48/48"
+    required: false
+    default: ""
+  username:
+    description: Set your bot's user name.
+    required: false
+    default: ""
+  markdown:
+    description: |
+      Disable Slack markup parsing by setting to false. Enabled by default.
+    required: false
+    default: ""
+  unfurl-media:
+    description: |
+      Pass false to disable unfurling of media content.
+
+      Default: true
+    required: false
+    default: "true"
+  unfurl-links:
+    description: |
+      Pass true to enable unfurling of primarily text-based content.
+
+      Default: true
+    required: false
+    default: "true"
+  thread-ts:
+    description: |
+      Provide another message's ts value to make this message a reply.
+      Avoid using a reply's ts value; use its parent instead.
+    required: false
+    default: ""
+
+outputs:
+  channel:
+    description: |
+      The property is the ID of the channel, private group or DM channel this
+      message is posted in.
+  ts:
+    description: |
+      The unique (per-channel) timestamp representing the thread.
+
+runs:
+  using: node20
+  main: dist/index.js
