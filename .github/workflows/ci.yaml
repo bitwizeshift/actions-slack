@@ -1,0 +1,13 @@
+name: Continuous Integration
+on:
+  push:
+    branches: develop
+  workflow_call:
+
+jobs:
+  ci:
+    name: Test Actions
+    runs-on: ubuntu-latest
+    steps:
+      - name: No-op
+        run: echo ""
