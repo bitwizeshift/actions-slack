@@ -9,5 +9,38 @@ jobs:
     name: Test Actions
     runs-on: ubuntu-latest
     steps:
-      - name: No-op
-        run: echo ""
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Post Message
+        id: message
+        uses: ./chat/post-message
+        with:
+          slack-token: ${{ secrets.SLACK_API_TOKEN }}
+          channel: general
+          message: |
+            *Lorem ipsum* dolor sit amet, consectetur adipiscing elit.
+            _Pellentesque_ lobortis sodales purus, eget suscipit **eros**
+            dapibus nec. Pellentesque fringilla posuere diam, quis tincidunt
+            lectus suscipit in. Orci varius natoque penatibus et magnis dis
+            parturient montes, nascetur ridiculus mus. In malesuada nisl vitae
+            ultricies ullamcorper. Etiam vel arcu sagittis lorem sodales
+            pretium. Nullam tempus, nisl eu vestibulum auctor, est elit luctus
+            nibh, vel gravida tellus diam eu nulla. Proin pharetra hendrerit
+            diam, at dignissim arcu auctor a. [Lorem](<.>) ipsum dolor sit amet,
+            consectetur **adipiscing** elit. Pellentesque fringilla id neque a
+            lacinia. Cras quis elit nec justo lacinia maximus ac eget ipsum.
+            Phasellus eu odio fermentum urna lacinia fermentum vitae a dui.
+            Aliquam non augue dignissim, euismod sem eu, laoreet lorem.
+
+            Nullam enim tellus, finibus ut molestie ac, *congue* id ligula.
+            Etiam maximus ut velit nec commodo. Quisque luctus ligula ac velit
+            pharetra, sed consectetur massa _pellentesque_. Etiam molestie, dui
+            sit amet dapibus rhoncus, diam dolor sollicitudin erat, faucibus
+            viverra ante mauris vel tortor.
+          username: Fückbot
+          icon-emoji: ':chart_with_upwards_trend:'
+
+      - name: Print TS
+        run: |
+          echo "TS = ${{ steps.message.outputs.ts }}"

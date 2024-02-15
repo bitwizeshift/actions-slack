@@ -13,10 +13,7 @@ jobs:
   verify-build:
     name: Verify build integrity
     uses: ./.github/workflows/ci.yaml
-    permissions:
-      contents: read
-      security-events: write
-      actions: read
+    secrets: inherit
 
   promote:
     name: Promote to Master

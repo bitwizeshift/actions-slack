@@ -2,7 +2,7 @@
   "name": "actions-slack",
   "version": "1.0.0",
   "description": "GitHub Actions for Slack automation",
-  "type": "module",
+  "type": "commonjs",
   "homepage": "https://github.com/bitwizeshift/actions-slack#readme",
   "repository": {
     "type": "git",
@@ -26,8 +26,7 @@
     "ci-test": "jest",
     "format:write": "prettier --write **/*.js",
     "format:check": "prettier --check **/*.js",
-    "lint": "npx eslint . -c ./.github/linters/.eslintrc.yml",
-    "package": "ncc build src/chat/post-message.js -o chat/post-message/dist",
+    "package": "ncc build chat/post-message/src/index.js -o chat/post-message/dist",
     "package:watch": "npm run package -- --watch",
     "test": "(jest && make-coverage-badge --output-path ./badges/coverage.svg) || make-coverage-badge --output-path ./badges/coverage.svg",
     "all": "npm run format:write && npm run lint && npm run test && npm run package"

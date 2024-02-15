@@ -1,6 +1,9 @@
 name: Post message to Slack Channel
 description: |
-  Posts a message to a Slack channek
+  Posts a message to a Slack channel.
+
+  See https://api.slack.com/methods/chat.postMessage for the API reference.
+  Requires: `chat:write`
 author: '@bitwizeshift'
 
 inputs:
@@ -10,12 +13,27 @@ inputs:
   message:
     description: |
       The message to post to Slack.
-      The format of this will be in markdown unless 'markdown' is 'false'.
+      The format of this will be in mrkdwn unless 'mrkdwn' is 'false'.
     required: true
   channel:
     description: The name or ID of the channel to comment on
     required: true
 
+  parse:
+    description: |
+      Change how messages are treated.
+
+      Messages are formatted as described in the formatting spec. The formatting
+      behavior will change depending on the value of parse.
+
+      By default, URLs will be hyperlinked. Set parse to none to remove the
+      hyperlinks.
+
+      The behavior of parse is different for text formatted with `mrkdwn` set.
+      By default, or when parse is set to none, mrkdwn formatting is
+      implemented. To ignore mrkdwn formatting, set parse to full.
+    required: false
+    default: none
   icon-emoji:
     description: |
       Emoji to use as the icon for this message. Overrides icon_url.
@@ -34,11 +52,11 @@ inputs:
     description: Set your bot's user name.
     required: false
     default: ""
-  markdown:
+  mrkdwn:
     description: |
       Disable Slack markup parsing by setting to false. Enabled by default.
     required: false
-    default: ""
+    default: "true"
   unfurl-media:
     description: |
       Pass false to disable unfurling of media content.
