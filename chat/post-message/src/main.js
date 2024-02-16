@@ -4,9 +4,13 @@ const slack = require("@slack/web-api");
 async function run() {
   try {
     // Required inputs
-    const token = core.getInput('slack-token', { required: true });
+    const token   = core.getInput('slack-token', { required: true });
     const channel = core.getInput('channel', { required: true });
-    const message = core.getInput('message', { required: true });
+
+    // Conditionally required inputs
+    const text        = core.getInput('text', { required: false });
+    const blocks      = core.getInput('blocks', { required: false });
+    const attachments = core.getInput('attachment', { required: false });
 
     // Optional inputs
     const icon_emoji   = core.getInput('icon-emoji', { required: false });
@@ -22,7 +26,9 @@ async function run() {
       logLevel: slack.LogLevel.WARN
     });
     const result = await client.chat.postMessage({
-      text: message,
+      text: text || undefined,
+      blocks: blocks || undefined,
+      attachments: attachments || undefined,
       channel: channel,
       token: token,
       icon_emoji: icon_emoji || undefined,

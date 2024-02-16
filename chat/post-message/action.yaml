@@ -7,6 +7,7 @@ description: |
 author: '@bitwizeshift'
 
 inputs:
+  # Required
   slack-token:
     description: The auth token for the given Slack bot.
     required: true
@@ -15,10 +16,29 @@ inputs:
       The message to post to Slack.
       The format of this will be in mrkdwn unless 'mrkdwn' is 'false'.
     required: true
-  channel:
-    description: The name or ID of the channel to comment on
-    required: true
 
+  # Conditionally Required:
+  attachments:
+    description: |
+      A JSON-based array of structured attachments, presented as a URL-encoded
+      string.
+    required: false
+    default: ""
+  blocks:
+    description: |
+      A JSON-based array of structured blocks, presented as a URL-encoded string.
+    required: false
+    default: ""
+  text:
+    description: |
+      The usage of the text field changes depending on whether you're using
+      blocks. If you're using blocks, this is used as a fallback string to
+      display in notifications. If you aren't, this is the main body text of
+      the message. It can be formatted as plain text, or with mrkdwn.
+    required: false
+    default: ""
+
+  # Optional
   parse:
     description: |
       Change how messages are treated.
