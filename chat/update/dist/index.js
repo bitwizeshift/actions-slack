@@ -33121,7 +33121,7 @@ module.exports = require("zlib");
 
 /***/ }),
 
-/***/ 6451:
+/***/ 5211:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
 const core = __nccwpck_require__(1636);
@@ -33132,6 +33132,7 @@ async function run() {
     // Required inputs
     const token   = core.getInput('slack-token', { required: true });
     const channel = core.getInput('channel', { required: true });
+    const ts      = core.getInput('ts', { required: true });
 
     // Conditionally required inputs
     const text        = core.getInput('text', { required: false });
@@ -33139,37 +33140,29 @@ async function run() {
     const attachments = core.getInput('attachment', { required: false });
 
     // Optional inputs
-    const icon_emoji   = core.getInput('icon-emoji', { required: false });
-    const icon_url     = core.getInput('icon-url', { required: false });
-    const username     = core.getInput('username', { required: false });
-    const mrkdwn       = core.getBooleanInput('mrkdwn', { required: false });
-    const unfurl_media = core.getBooleanInput('unfurl-media', { required: false });
-    const unfurl_links = core.getBooleanInput('unfurl-links', { required: false });
-    const thread_ts    = core.getInput('thread-ts', { required: false });
-    const parse        = core.getInput('parse', { required: false });
+    const parse           = core.getInput('parse', { required: false });
+    const file_ids        = core.getMultilineInput('file-ids', { required: false });
+    const link_names      = core.getBooleanInput('link-names', { required: false });
+    const metadata        = core.getInput('metadata', { required: false });
+    const reply_broadcast = core.getBooleanInput('reply-broadcast', { required: false });
 
     const client = new slack.WebClient(token, {
       logLevel: slack.LogLevel.WARN
     });
-    const result = await client.chat.postMessage({
+    const result = await client.chat.update({
+      token: token,
+      channel: channel,
+      ts: ts,
       text: text || undefined,
       blocks: blocks || undefined,
       attachments: attachments || undefined,
-      channel: channel,
-      token: token,
-      icon_emoji: icon_emoji || undefined,
-      icon_url: icon_url || undefined,
-      username: username || undefined,
-      unfurl_media: unfurl_media,
-      unfurl_links: unfurl_links,
-      mrkdwn: mrkdwn,
-      thread_ts: thread_ts || undefined,
-      parse: parse || undefined,
+      parse: parse,
+      file_ids: file_ids || undefined,
+      link_names: link_names,
+      metadata: metadata || undefined,
+      reply_broadcast: reply_broadcast
     })
     if (!result.ok) {
-      result.errors.forEach((err) => {
-        core.error(err);
-      })
       if (result.error) {
         core.error(result.error);
       }
@@ -39229,7 +39222,7 @@ module.exports = JSON.parse('{"application/1d-interleaved-parityfec":{"source":"
 var __webpack_exports__ = {};
 // This entry need to be wrapped in an IIFE because it need to be isolated against other modules in the chunk.
 (() => {
-const { run } = __nccwpck_require__(6451)
+const { run } = __nccwpck_require__(5211)
 
 run()
 

@@ -1,0 +1,91 @@
+name: Post message to Slack Channel
+description: |
+  Posts a message to a Slack channel.
+
+  See https://api.slack.com/methods/chat.postMessage for the API reference.
+  Requires: `chat:write`
+author: '@bitwizeshift'
+
+inputs:
+  # Required
+  slack-token:
+    description: The auth token for the given Slack bot.
+    required: true
+  channel:
+    description: Channel containing the message to be updated.
+    required: true
+  ts:
+    description: Timestamp of the message to be updated.
+    required: true
+
+  # Conditionally Required:
+  attachment:
+    description: |
+      A JSON-based array of structured attachments, presented as a URL-encoded
+      string.
+    required: false
+    default: ""
+  blocks:
+    description: |
+      A JSON-based array of structured blocks, presented as a URL-encoded string.
+    required: false
+    default: ""
+  text:
+    description: |
+      The usage of the text field changes depending on whether you're using
+      blocks. If you're using blocks, this is used as a fallback string to
+      display in notifications. If you aren't, this is the main body text of
+      the message. It can be formatted as plain text, or with mrkdwn.
+    required: false
+    default: ""
+
+  # Optional
+  parse:
+    description: |
+      Change how messages are treated. Defaults to client, unlike
+      chat.postMessage. Accepts either none or full. If you do not specify a
+      value for this field, the original value set for the message will be
+      overwritten with the default, client.
+    required: false
+    default: client
+  file-ids:
+    description: |
+      A list of file ids that will be sent with this message. IDs each on their
+      own individual line.
+    required: false
+    default: ""
+  link-names:
+    description: |
+      Find and link channel names and usernames. Defaults to none. If you do not
+      specify a value for this field, the original value set for the message
+      will be overwritten with the default, none.
+    required: false
+    default: "false"
+  metadata:
+    description: |
+      JSON object with event_type and event_payload fields, presented as a
+      URL-encoded string. If you don't include this field, the message's
+      previous metadata will be retained. To remove previous metadata, include
+      an empty object for this field. Metadata you post to Slack is accessible
+      to any app or user who is a member of that workspace.
+    required: false
+    default: ""
+  reply-broadcast:
+    description: |
+      Broadcast an existing thread reply to make it visible to everyone in the
+      channel or conversation.
+    required: false
+    default: "false"
+
+outputs:
+  channel:
+    description: |
+      The property is the ID of the channel, private group or DM channel this
+      message is posted in.
+  ts:
+    description: |
+      The unique (per-channel) timestamp representing the thread.
+
+runs:
+  using: node20
+  main: dist/index.js

@@ -1,0 +1,27 @@
+name: Gets a slack permalink
+description: |
+  Deletes a message from a Slack channel.
+
+  See https://api.slack.com/methods/chat.delete for the API reference.
+  Requires: `chat:write`
+author: '@bitwizeshift'
+
+inputs:
+  slack-token:
+    description: The auth token for the given Slack bot.
+    required: true
+  channel:
+    description: The ID of the conversation or channel containing the message.
+    required: true
+  message-ts:
+    description: A message's ts value, uniquely identifying it within a channel.
+    required: true
+outputs:
+  channel:
+    description: The ID of the channel that was posted to.
+  permalink:
+    description: A permalink to the the posted comment.
+
+runs:
+  using: node20
+  main: dist/index.js

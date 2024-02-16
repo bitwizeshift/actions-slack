@@ -11,10 +11,10 @@ inputs:
   slack-token:
     description: The auth token for the given Slack bot.
     required: true
-  message:
+  channel:
     description: |
-      The message to post to Slack.
-      The format of this will be in mrkdwn unless 'mrkdwn' is 'false'.
+      Channel, private group, or IM channel to send message to. Can be an
+      encoded ID, or a name. See below for more details.
     required: true
 
   # Conditionally Required:

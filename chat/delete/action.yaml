@@ -1,0 +1,21 @@
+name: Delete Slack message
+description: |
+  Deletes a message from a Slack channel.
+
+  See https://api.slack.com/methods/chat.delete for the API reference.
+  Requires: `chat:write`
+author: '@bitwizeshift'
+
+inputs:
+  slack-token:
+    description: The auth token for the given Slack bot.
+    required: true
+  channel:
+    description: Channel containing the message to be deleted.
+    required: true
+  ts:
+    description: Timestamp of the message to be deleted.
+    required: true
+runs:
+  using: node20
+  main: dist/index.js
