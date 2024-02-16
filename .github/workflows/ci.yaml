@@ -1,7 +1,7 @@
 name: Continuous Integration
 on:
   push:
-    branches: develop
+    branches: master
   workflow_call:
 
 jobs:
@@ -13,12 +13,12 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Post Message
-        id: message
+        id: post
         uses: ./chat/post-message
         with:
           slack-token: ${{ secrets.SLACK_API_TOKEN }}
           channel: general
-          message: |
+          text: |
             *Lorem ipsum* dolor sit amet, consectetur adipiscing elit.
             _Pellentesque_ lobortis sodales purus, eget suscipit **eros**
             dapibus nec. Pellentesque fringilla posuere diam, quis tincidunt
@@ -41,6 +41,31 @@ jobs:
           username: Fückbot
           icon-emoji: ':chart_with_upwards_trend:'
 
-      - name: Print TS
+      - name: Update Message
+        uses: ./chat/update
+        with:
+          slack-token: ${{ secrets.SLACK_API_TOKEN }}
+          channel: ${{ steps.post.outputs.channel }}
+          ts: ${{ steps.post.outputs.ts }}
+          text: Disregard this message
+
+      - name: Get Permalink
+        uses: ./chat/get-permalink
+        id: message
+        with:
+          slack-token: ${{ secrets.SLACK_API_TOKEN }}
+          channel: ${{ steps.post.outputs.channel }}
+          message-ts: ${{ steps.post.outputs.ts }}
+
+      - name: Print Permalink
         run: |
-          echo "TS = ${{ steps.message.outputs.ts }}"
+          echo "* **ts** = ${{ steps.post.outputs.ts }}" >> "${GITHUB_STEP_SUMMARY}"
+          echo "* **Channel** = ${{ steps.post.outputs.channel }}" >> "${GITHUB_STEP_SUMMARY}"
+          echo "* [Permalink](${{ steps.message.outputs.permalink }})" >> "${GITHUB_STEP_SUMMARY}"
+
+      - name: Delete post
+        uses: ./chat/delete
+        with:
+          slack-token: ${{ secrets.SLACK_API_TOKEN }}
+          channel: ${{ steps.post.outputs.channel }}
+          ts: ${{ steps.post.outputs.ts }}
